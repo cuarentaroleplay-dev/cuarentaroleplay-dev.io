@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Editor Larry - BDV</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .contenedor-principal {
+            position: relative;
+            width: 100%;
+            max-width: 380px; 
+            aspect-ratio: 9 / 19; 
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .imagen-fondo {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .contenedor-monto {
+            position: absolute;
+            top: 30.4%; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 75%;
+            text-align: center;
+        }
+
+        .input-monto {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .capa-formulario {
+            position: absolute;
+            top: 35.8%; 
+            left: 32%;  
+            width: 63%; 
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            height: 27.2px; 
+            vertical-align: middle;
+            padding-right: 15px; /* Margen general para todas las filas */
+        }
+
+        .input-datos {
+            width: 100%;
+            background: transparent;
+            border: none;
+            font-size: 14px;
+            color: #444;
+            outline: none;
+            text-align: right; 
+            font-weight: 500;
+        }
+
+        /* --- AQUÍ ESTÁ LA CORRECCIÓN --- */
+
+        /* Esta clase añade más espacio a la derecha, empujando el texto a la izquierda */
+        .columna-operacion {
+            padding-right: 30px !important; /* Ajusta este número si necesitas moverlo más o menos */
+        }
+
+        /* --- FIN DE LA CORRECCIÓN --- */
+
+        .input-banco {
+            font-size: 12.5px;
+        }
+
+        .btn-generar {
+            width: 160px;
+            padding: 12px;
+            background-color: #e30613; 
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 20px auto;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-principal">
+        <img src="https://uploads.onecompiler.io/44j7h8uqg/44j837649/1000324795.jpg" alt="Comprobante" class="imagen-fondo">
+
+        <div class="contenedor-monto">
+            <input type="text" class="input-monto" id="monto" placeholder="140,00 Bs">
+        </div>
+
+        <form class="capa-formulario" onsubmit="return false;">
+            <table>
+                <tr><td><input type="text" class="input-datos" placeholder="19/07/2024"></td></tr>
+                
+                <tr><td class="columna-operacion"><input type="text" class="input-datos" placeholder="001169386543"></td></tr>
+                
+                <tr><td><input type="text" class="input-datos" placeholder="17539544"></td></tr>
+                <tr><td><input type="text" class="input-datos" placeholder="0102****8354"></td></tr>
+                <tr><td><input type="text" class="input-datos" placeholder="04248125925"></td></tr>
+                <tr><td><input type="text" class="input-datos input-banco" placeholder="0102 - BANCO DE VENEZUELA"></td></tr>
+                <tr><td><input type="text" class="input-datos" placeholder="pago"></td></tr>
+            </table>
+        </form>
+    </div>
+
+    <button class="btn-generar" onclick="enviarAlBot()">Generar</button>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function enviarAlBot() {
+            const monto = document.getElementById('monto').value || "140,00 Bs";
+            const campos = document.querySelectorAll('.input-datos');
+            
+            const mensaje = `✅ *COMPROBANTE GENERADO*\n\n` +
+                            `💰 *Monto:* ${monto}\n` +
+                            `📅 *Fecha:* ${campos[0].value || campos[0].placeholder}\n` +
+                            `🔢 *Referencia:* ${campos[1].value || campos[1].placeholder}\n` +
+                            `🏦 *Banco:* ${campos[5].value || campos[5].placeholder}\n\n` +
+                            `_Editor Larry_`;
+
+            tg.sendData(mensaje); 
+        }
+    </script>
+
+</body>
+</html>
